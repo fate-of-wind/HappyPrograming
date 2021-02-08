@@ -15,3 +15,8 @@ I draw them on paper and played with my classmates.
 Now I have a chance to display it through Java,
 that's amazing.   
 
+##User story
+- As a user, I want to be able to add Cards to Hand
+- As a user, I want to be able to select difficulty level of other player
+- As a user, I want to be able to have ability to see number of other player's hand card (can choose open or not)
+- As a user, I want to be able to select a card on hand and add it to Table
