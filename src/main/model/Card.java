@@ -19,26 +19,52 @@ public class Card {
     }
 
     // REQUIRES: only in ROCK, PAPER, SCISSOR
-    // EFFECTS
+    // EFFECTS: Compare card to show which one is winner
     public String compare(Card card) {
-        if (this.getKinds().equals("rock") && card.getKinds().equals("rock")) {
+        if (this.getKinds().equals("rock")) {
+            return rockCompare(card);
+        } else if (this.getKinds().equals("scissor")) {
+            return scissorCompare(card);
+        } else  {
+            return paperCompare(card);
+        }
+    }
+
+    // REQUIRES: only in ROCK, PAPER, SCISSOR
+    // EFFECTS: Compare rock card to show which one is winner
+    public String rockCompare(Card card) {
+        if (card.getKinds().equals("rock")) {
             return "evened";
-        } else if (this.getKinds().equals("rock") && card.getKinds().equals("paper")) {
+        } else if (card.getKinds().equals("paper")) {
             return "lose";
-        } else if (this.getKinds().equals("rock") && card.getKinds().equals("scissor")) {
+        } else {
             return "win";
-        } else if (this.getKinds().equals("scissor") && card.getKinds().equals("rock")) {
+        }
+    }
+
+    // REQUIRES: only in ROCK, PAPER, SCISSOR
+    // EFFECTS: Compare scissor card to show which one is winner
+    public String scissorCompare(Card card) {
+        if (card.getKinds().equals("rock")) {
             return "lose";
-        } else if (this.getKinds().equals("scissor") && card.getKinds().equals("scissor")) {
+        } else if (card.getKinds().equals("scissor")) {
             return "evened";
-        } else if (this.getKinds().equals("scissor") && card.getKinds().equals("paper")) {
+        } else {
             return "win";
-        } else if (this.getKinds().equals("paper") && card.getKinds().equals("rock")) {
+        }
+    }
+
+    // REQUIRES: only in ROCK, PAPER, SCISSOR
+    // EFFECTS: Compare paper card to show which one is winner
+    public String paperCompare(Card card) {
+        if (card.getKinds().equals("rock")) {
             return "win";
-        } else if (this.getKinds().equals("paper") && card.getKinds().equals("paper")) {
+        } else if (card.getKinds().equals("paper")) {
             return "evened";
         } else {
             return "lose";
         }
     }
 }
+
+
