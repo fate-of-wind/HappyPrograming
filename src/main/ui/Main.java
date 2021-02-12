@@ -1,6 +1,6 @@
 package ui;
 
-import model.Hand;
+//main to run this card game
 
 public class Main {
     public static void main(String[] args) {

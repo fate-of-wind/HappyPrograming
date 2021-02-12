@@ -34,6 +34,12 @@ public class CardGame {
 
             if (command.equals("q")) {
                 keepGoing = false;
+            } else if (checkLoser().equals("player1 lose")) {
+                System.out.println("you lose, even cannot beat computer");
+                keepGoing = false;
+            } else if (checkLoser().equals("player2 lose")) {
+                System.out.println("Congratulation!!! you made it!!!");
+                keepGoing = false;
             } else {
                 processCommand(command);
             }
@@ -83,8 +89,8 @@ public class CardGame {
         System.out.println("\ts->scissor");
     }
 
-    // EFFECTS: player show their card and compare them
-    private String showCard() {
+    // EFFECTS: player show their card and compare them, then transfer result to evaluation
+    private void showCard() {
         displayInShowCard();
         String result = "";
         this.player2Chosen = randomShow();
@@ -107,7 +113,6 @@ public class CardGame {
         }
         System.out.println("result: " + result + " in this turn");
         evaluateResult(result);
-        return result;
     }
 
     //MODIFIES: this
@@ -155,12 +160,22 @@ public class CardGame {
     // EFFECTS: prints number of two player's three kinds card
     private void printHandCondition() {
         System.out.println("\nCondition:");
-        System.out.println("\tMy Rock Num: " + player1.getRockNum());
-        System.out.println("\tMy Paper Num: " + player1.getPaperNum());
-        System.out.println("\tMy Scissor Num: " + player1.getScissorNum());
-        System.out.println("\tOpponent Rock Num: " + player2.getRockNum());
-        System.out.println("\tOpponent Paper Num: " + player2.getPaperNum());
+        System.out.print("\tMy Rock Num: " + player1.getRockNum());
+        System.out.println("\t    Opponent Rock Num: " + player2.getRockNum());
+        System.out.print("\tMy Paper Num: " + player1.getPaperNum());
+        System.out.println("\t    Opponent Paper Num: " + player2.getPaperNum());
+        System.out.print("\tMy Scissor Num: " + player1.getScissorNum());
         System.out.println("\tOpponent Scissor Num: " + player2.getScissorNum());
     }
 
+    //EFFECTS: check if two players lose their all cards
+    private String checkLoser() {
+        if (player1.getRockNum() == 0 && player1.getScissorNum() == 0 && player1.getPaperNum() == 0) {
+            return "player1 lose";
+        } else if (player2.getRockNum() == 0 && player2.getScissorNum() == 0 && player2.getPaperNum() == 0) {
+            return "player2 lose";
+        } else {
+            return "";
+        }
+    }
 }
