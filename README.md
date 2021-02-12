@@ -19,6 +19,7 @@ that's amazing.
 - As a user, I want to be able to start a game (finished)
 - As a user, I want to be able to see number of each kind of card I own currently (finished)
 - As a user, I want to be able to add Cards to Hand automatically (finished)
+- As a user, I want to be able to add player2's past shown Card to Player2PastShown class and its arraylist
 - As a user, I want to be able to select a card on hand and show it (finished)
 - As a user, I want to compare my card to opponent's card (finished)
 - As a user, I want to play with an opponent who can actually show card (finished)

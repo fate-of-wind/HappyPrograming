@@ -50,6 +50,10 @@ public class HandTest {
         testHand.addSpecificOneCard(paperCard);
         testHand.addSpecificOneCard(paperCard);
         assertEquals(7,testHand.getPaperNum());
+    }
+
+    @Test
+    void  testAddSpecificOneCardMultipleTime(){
         testHand.addSpecificOneCard(scissorCard);
         testHand.addSpecificOneCard(scissorCard);
         testHand.addSpecificOneCard(scissorCard);
