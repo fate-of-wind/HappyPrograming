@@ -2,6 +2,7 @@ package ui;
 
 import model.Card;
 import model.Hand;
+import model.Player2PastShown;
 
 import java.util.Scanner;
 
@@ -15,6 +16,7 @@ public class CardGame {
     private Card player1Chosen;
     private Card player2Chosen;
     private String chosen;
+    private Player2PastShown pastP2Shown;
 
     // EFFECTS: runs the card game
     public CardGame() {
@@ -59,6 +61,8 @@ public class CardGame {
             printHandCondition();
         } else if (command.equals("n")) {
             init();
+        } else if (command.equals("p")) {
+            System.out.println(pastP2Shown.toMakeString());
         } else {
             System.out.println("Selection not valid...");
         }
@@ -72,6 +76,7 @@ public class CardGame {
         rockCard = new Card("rock");
         paperCard = new Card("paper");
         scissorCard = new Card("scissor");
+        pastP2Shown = new Player2PastShown();
 
         input = new Scanner(System.in);
     }
@@ -81,6 +86,7 @@ public class CardGame {
         System.out.println("\nSelect from:");
         System.out.println("\tn -> new game(make you hand back to 15, I wish you won't lose again)");
         System.out.println("\ts -> show card");
+        System.out.println("\tp -> show past player2 shown");
         System.out.println("\tq -> quit");
     }
 
@@ -97,6 +103,7 @@ public class CardGame {
         displayInShowCard();
         String result = "";
         this.player2Chosen = randomShow();
+        pastP2Shown.addCardToPastShown(player2Chosen);
         chosen = input.next();
         recordPlayer1Chosen();
         if (chosen.equals("r")) {
