@@ -22,23 +22,23 @@ public class Card {
     // EFFECTS
     public String compare(Card card) {
         if (this.getKinds().equals("rock") && card.getKinds().equals("rock")) {
-            return "=";
+            return "evened";
         } else if (this.getKinds().equals("rock") && card.getKinds().equals("paper")) {
-            return "<";
+            return "lose";
         } else if (this.getKinds().equals("rock") && card.getKinds().equals("scissor")) {
-            return ">";
+            return "win";
         } else if (this.getKinds().equals("scissor") && card.getKinds().equals("rock")) {
-            return "<";
+            return "lose";
         } else if (this.getKinds().equals("scissor") && card.getKinds().equals("scissor")) {
-            return "=";
+            return "evened";
         } else if (this.getKinds().equals("scissor") && card.getKinds().equals("paper")) {
-            return ">";
+            return "win";
         } else if (this.getKinds().equals("paper") && card.getKinds().equals("rock")) {
-            return ">";
+            return "win";
         } else if (this.getKinds().equals("paper") && card.getKinds().equals("paper")) {
-            return "=";
+            return "evened";
         } else {
-            return "<";
+            return "lose";
         }
     }
 }

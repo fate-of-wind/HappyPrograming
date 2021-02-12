@@ -12,8 +12,9 @@ public class CardGame {
     private Card rockCard;
     private Card paperCard;
     private Card scissorCard;
+    private Card player1Chosen;
     private Card player2Chosen;
-
+    private String chosen;
 
     // EFFECTS: runs the card game
     public CardGame() {
@@ -22,7 +23,7 @@ public class CardGame {
 
     private void runCardGame() {
         boolean keepGoing = true;
-        String command = null;
+        String command;
 
         init();
 
@@ -47,6 +48,9 @@ public class CardGame {
     private void processCommand(String command) {
         if (command.equals("s")) {
             showCard();
+            printHandCondition();
+        } else if (command.equals("n")) {
+            init();
         } else {
             System.out.println("Selection not valid...");
         }
@@ -67,25 +71,28 @@ public class CardGame {
     // EFFECTS: displays menu of options to user
     private void displayMenu() {
         System.out.println("\nSelect from:");
-        System.out.println("\tn -> new game");
+        System.out.println("\tn -> new game(make you hand back to 15, I wish you won't lose again)");
         System.out.println("\ts -> show card");
         System.out.println("\tq -> quit");
     }
 
-    // EFFECTS: player show their card and compare them
-    private String showCard() {
+    private void displayInShowCard() {
         System.out.println("\nselect card to compare");
         System.out.println("\tr->rock");
         System.out.println("\tp->paper");
         System.out.println("\ts->scissor");
+    }
 
+    // EFFECTS: player show their card and compare them
+    private String showCard() {
+        displayInShowCard();
         String result = "";
-        player2Chosen = randomShow();
-        String chosen = input.next();
+        this.player2Chosen = randomShow();
+        chosen = input.next();
+        recordPlayer1Chosen();
         if (chosen.equals("r")) {
             if (player1.getRockNum() > 0) {
                 result = rockCard.compare(player2Chosen);
-
             }
         } else if (chosen.equals("p")) {
             if (player1.getPaperNum() > 0) {
@@ -98,8 +105,38 @@ public class CardGame {
         } else {
             System.out.println("Selection not valid...");
         }
-        System.out.println(result);
+        System.out.println("result: " + result + " in this turn");
+        evaluateResult(result);
         return result;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: evaluate the result after show card, if win then get opponent's shown card.
+    //if lose, then give your shown card to opponent. if evened, then both throw shown card.
+    private void evaluateResult(String result) {
+        if (result.equals("win")) {
+            player1.addSpecificOneCard(player2Chosen);
+            player2.removeSpecificOneCard(player2Chosen);
+        } else if (result.equals("lose")) {
+            player1.removeSpecificOneCard(player1Chosen);
+            player2.addSpecificOneCard(player1Chosen);
+        } else if (result.equals("evened")) {
+            player1.removeSpecificOneCard(player1Chosen);
+            player2.removeSpecificOneCard(player2Chosen);
+        }
+    }
+
+
+    //MODIFIES: this
+    //EFFECTS: convert input string to Card that player1 chosen
+    private void recordPlayer1Chosen() {
+        if (chosen.equals("r")) {
+            this.player1Chosen = rockCard;
+        } else if (chosen.equals("p")) {
+            this.player1Chosen = paperCard;
+        } else if (chosen.equals("s")) {
+            this.player1Chosen = scissorCard;
+        }
     }
 
 
@@ -117,7 +154,13 @@ public class CardGame {
 
     // EFFECTS: prints number of two player's three kinds card
     private void printHandCondition() {
-
+        System.out.println("\nCondition:");
+        System.out.println("\tMy Rock Num: " + player1.getRockNum());
+        System.out.println("\tMy Paper Num: " + player1.getPaperNum());
+        System.out.println("\tMy Scissor Num: " + player1.getScissorNum());
+        System.out.println("\tOpponent Rock Num: " + player2.getRockNum());
+        System.out.println("\tOpponent Paper Num: " + player2.getPaperNum());
+        System.out.println("\tOpponent Scissor Num: " + player2.getScissorNum());
     }
 
 }
