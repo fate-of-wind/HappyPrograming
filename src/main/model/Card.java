@@ -4,7 +4,7 @@ package model;
 // It's a circle.
 
 public class Card {
-    private String kinds;
+    private final String kinds;
 
     /*
     REQUIRES: kind can only be "rock", "paper", or "scissor"
@@ -16,5 +16,29 @@ public class Card {
 
     public String getKinds() {
         return kinds;
+    }
+
+    // REQUIRES: only in ROCK, PAPER, SCISSOR
+    // EFFECTS
+    public String compare(Card card) {
+        if (this.getKinds().equals("rock") && card.getKinds().equals("rock")) {
+            return "=";
+        } else if (this.getKinds().equals("rock") && card.getKinds().equals("paper")) {
+            return "<";
+        } else if (this.getKinds().equals("rock") && card.getKinds().equals("scissor")) {
+            return ">";
+        } else if (this.getKinds().equals("scissor") && card.getKinds().equals("rock")) {
+            return "<";
+        } else if (this.getKinds().equals("scissor") && card.getKinds().equals("scissor")) {
+            return "=";
+        } else if (this.getKinds().equals("scissor") && card.getKinds().equals("paper")) {
+            return ">";
+        } else if (this.getKinds().equals("paper") && card.getKinds().equals("rock")) {
+            return ">";
+        } else if (this.getKinds().equals("paper") && card.getKinds().equals("paper")) {
+            return "=";
+        } else {
+            return "<";
+        }
     }
 }

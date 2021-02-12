@@ -16,10 +16,13 @@ Now I have a chance to display it through Java,
 that's amazing.   
 
 ## User story
-- As a user, I want to be able to start a game
-- As a user, I want to be able to see number of each kind of card I own currently
-- As a user, I want to be able to add Cards to Hand automatically
-- As a user, I want to be able to remove Cards from Hand automatically
-- As a user, I want to be able to select difficulty level of other player
+- As a user, I want to be able to start a game (finished)
+- As a user, I want to be able to see number of each kind of card I own currently (finished)
+- As a user, I want to be able to add Cards to Hand automatically (finished)
+- As a user, I want to be able to select a card on hand and show it (finished)
+- As a user, I want to compare my card to opponent's card (finished)
+- As a user, I want to play with an opponent who can actually show card (finished)
 - As a user, I want to be able to have ability to see number of other player's hand card (can choose open or not)
-- As a user, I want to be able to select a card on hand and show it
+- As a user, I want to be able to remove Cards from Hand automatically (finished)
+- As a user, I want to be able to select difficulty level of other player
+
