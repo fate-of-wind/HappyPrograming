@@ -21,6 +21,8 @@ public class CardGame {
         runCardGame();
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input
     private void runCardGame() {
         boolean keepGoing = true;
         String command;
@@ -82,6 +84,7 @@ public class CardGame {
         System.out.println("\tq -> quit");
     }
 
+    // EFFECTS: displays three cards to user
     private void displayInShowCard() {
         System.out.println("\nselect card to compare");
         System.out.println("\tr->rock");
