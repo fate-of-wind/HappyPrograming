@@ -58,6 +58,7 @@ public class CardGame {
     private void processCommand(String command) {
         if (command.equals("s")) {
             showCard();
+            printPlayersCard();
             printHandCondition();
         } else if (command.equals("n")) {
             init();
@@ -96,6 +97,12 @@ public class CardGame {
         System.out.println("\tr->rock");
         System.out.println("\tp->paper");
         System.out.println("\ts->scissor");
+    }
+
+    //EFFECTS: print card player2 shown
+    private void printPlayersCard() {
+        System.out.println("I show: " + player1Chosen.getKinds());
+        System.out.println("Player2 shows: " + player2Chosen.getKinds());
     }
 
     // EFFECTS: player show their card and compare them, then transfer result to evaluation

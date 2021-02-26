@@ -19,6 +19,8 @@ public class Player2PastShown {
         player2PastShow.add(card);
     }
 
+
+    //EFFECTS: transfer those element in list into string
     public String toMakeString() {
         String pastShown = "";
         for (Card c : this.player2PastShow) {
