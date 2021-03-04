@@ -14,6 +14,8 @@ public class JsonWriter {
     private PrintWriter writer;
     private String destination;
 
+    // EFFECTS: constructs writer to write to destination file
+    //TODO citation:code taken and modified from JsonWriter.java package in JsonSerializationDemo
     public JsonWriter(String destination) {
         this.destination = destination;
     }
@@ -21,15 +23,21 @@ public class JsonWriter {
     // MODIFIES: this
     // EFFECTS: opens writer; throws FileNotFoundException if destination file cannot
     // be opened for writing
+    //TODO citation:code taken and modified from JsonWriter.java package in JsonSerializationDemo
     public void open() throws FileNotFoundException {
         writer = new PrintWriter(new File(destination));  //same method given in example(JsonDemo)
     }
 
+    // MODIFIES: this
+    // EFFECTS: writes JSON representation of Player2PastShown to file
+    //TODO citation:code taken and modified from JsonWriter.java package in JsonSerializationDemo
     public void write(Player2PastShown p) {
         JSONObject json = p.toJson();
         saveToFile(json.toString(TAB));
     }
 
+    // MODIFIES: this
+    // EFFECTS: writes JSON representation of Hand to file
     public void write(Hand p) {
         JSONObject json = p.toJson();
         saveToFile(json.toString(TAB));

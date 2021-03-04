@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -60,5 +62,30 @@ public class Player2PastShownTest {
         testPastShown.addCardToPastShown(testRockCard);
         testPastShown.addCardToPastShown(testScissorCard);
         assertEquals("paper rock scissor ",testPastShown.toMakeString());
+    }
+
+    @Test
+    void testToJson() {
+        testPastShown.addCardToPastShown(testPaperCard);
+        testPastShown.addCardToPastShown(testRockCard);
+        testPastShown.addCardToPastShown(testScissorCard);
+        JSONObject json = new JSONObject();
+        json.put("player2past", testPastShown.pastShownToJson());
+        String jsonString = json.toString();
+        assertEquals(jsonString,testPastShown.toJson().toString());
+    }
+
+    @Test
+    void testPastShownToJson() {
+        JSONArray jsonArray = new JSONArray();
+        testPastShown.addCardToPastShown(testPaperCard);
+        testPastShown.addCardToPastShown(testRockCard);
+        testPastShown.addCardToPastShown(testScissorCard);
+        jsonArray.put(testPaperCard.toJson());
+        jsonArray.put(testRockCard.toJson());
+        jsonArray.put(testScissorCard.toJson());
+        String json = jsonArray.toString();
+        assertEquals(json , testPastShown.pastShownToJson().toString());
+
     }
 }

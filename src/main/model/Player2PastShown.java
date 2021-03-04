@@ -40,6 +40,8 @@ public class Player2PastShown implements Writable {
         return json;
     }
 
+    // EFFECT: returns cards in player2PastShown as a JSON array
+    // TODO citation:code taken and modified from WorkRoom.java package in JsonSerializationDemo
     public JSONArray pastShownToJson() {
         JSONArray jsonArray = new JSONArray();
 

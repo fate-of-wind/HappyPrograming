@@ -211,7 +211,7 @@ public class CardGame {
         System.out.println("\tOpponent Scissor Num: " + player2.getScissorNum());
     }
 
-    //EFFECTS: check if two players lose their all cards
+    // EFFECTS: check if two players lose their all cards
     private String checkLoser() {
         if (player1.getRockNum() == 0 && player1.getScissorNum() == 0 && player1.getPaperNum() == 0) {
             return "player1 lose";
@@ -222,16 +222,20 @@ public class CardGame {
         }
     }
 
+    // EFFECTS: save all content need to save
     private void saveAll() {
         savePlayer2PastShown();
         saveHandCondition();
     }
 
+    // EFFECTS: load all content need to load
     private void loadAll() {
         loadPlayer2PastShown();
         loadHandCondition();
     }
 
+    // EFFECTS: saves 2 players' hand states on file
+    // TODO citation:code taken and modified from WorkRoomApp.java package in JsonSerializationDemo
     private void saveHandCondition() {
         try {
             jsonWriterForPlayer1Hand.open();
@@ -246,6 +250,9 @@ public class CardGame {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: load 2 players' hand states from file
+    // TODO citation:code taken and modified from WorkRoomApp.java package in JsonSerializationDemo
     private void loadHandCondition() {
         try {
             player1 = jsonReaderForPlayer1Hand.readHand();
@@ -256,6 +263,7 @@ public class CardGame {
         }
     }
 
+    // EFFECTS: save player2 past shown card on file
     private void savePlayer2PastShown() {
         try {
             jsonWriter.open();
@@ -267,6 +275,8 @@ public class CardGame {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: load player2 past shown card from file
     private void loadPlayer2PastShown() {
         try {
             pastP2Shown = jsonReader.readPlayer2PastShown();

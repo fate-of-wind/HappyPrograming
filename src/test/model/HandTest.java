@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,5 +59,16 @@ public class HandTest {
         testHand.addSpecificOneCard(scissorCard);
         testHand.addSpecificOneCard(scissorCard);
         assertEquals(8,testHand.getScissorNum());
+    }
+
+    @Test
+    void testToJson() {
+        testHand = new Hand(7,6,3);
+        JSONObject x = new JSONObject();
+        x.put("rock",7);
+        x.put("scissor",3);
+        x.put("paper",6);
+        String json = x.toString();
+        assertEquals(json, testHand.toJson().toString());
     }
 }

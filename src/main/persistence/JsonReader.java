@@ -23,6 +23,7 @@ public class JsonReader {
 
     // EFFECTS: reads workroom from file and returns it;
     // throws IOException if an error occurs reading data from file
+    //TODO citation:code taken and modified from JsonReader.java package in JsonSerializationDemo
     public Player2PastShown readPlayer2PastShown() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
@@ -35,6 +36,8 @@ public class JsonReader {
         return parseHand(jsonObject);
     }
 
+    // EFFECTS: read source file as string and returns it
+    // TODO citation:code taken and modified from JsonReader.java package in JsonSerializationDemo
     private String readFile(String source) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
 
@@ -45,6 +48,7 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
+    // EFFECTS: parses Hand from JSON object and returns it
     private Hand parseHand(JSONObject jsonObject) {
         int rock = jsonObject.getInt("rock");
         int scissor = jsonObject.getInt("scissor");
@@ -53,12 +57,17 @@ public class JsonReader {
         return playerHand;
     }
 
+    // EFFECTS: parses player2 past shown from JSON object and returns it
+    //TODO citation:code taken and modified from JsonReader.java package in JsonSerializationDemo
     private Player2PastShown parsePlayer2PastShown(JSONObject jsonObject) {
         Player2PastShown p = new Player2PastShown();
         addCards(p, jsonObject);
         return p;
     }
 
+    // MODIFIES: p
+    // EFFECTS: parses Card from JSON object and adds them to Player2PastShown
+    //TODO citation:code taken and modified from JsonReader.java package in JsonSerializationDemo
     private void addCards(Player2PastShown p, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("player2past");
         for (Object json : jsonArray) {
@@ -67,6 +76,9 @@ public class JsonReader {
         }
     }
 
+    // MODIFIES: p
+    // EFFECTS: parses Card from JSON object and adds it to Player2PastShown
+    //TODO citation:code taken and modified from JsonReader.java package in JsonSerializationDemo
     private void addCard(Player2PastShown p, JSONObject jsonObject) {
         String kind = jsonObject.getString("kind");
 

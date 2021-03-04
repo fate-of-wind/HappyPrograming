@@ -2,8 +2,9 @@ package model;
 // Hand is hand card of each player. At first, each Hand contains 15 cards. - 5 rock, 5 paper, and 5 scissors
 
 import org.json.JSONObject;
+import persistence.Writable;
 
-public class Hand {
+public class Hand implements Writable {
     Card rockCard = new Card("rock");
     Card paperCard = new Card("paper");
     Card scissorCard = new Card("scissor");
@@ -58,6 +59,7 @@ public class Hand {
         }
     }
 
+    @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("rock",rock.getNumber());

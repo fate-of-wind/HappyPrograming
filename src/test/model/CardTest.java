@@ -1,4 +1,5 @@
 package model;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ public class CardTest {
     }
 
     @Test
-    void TestCompare() {
+    void testCompare() {
         assertEquals("evened",testRockCard.compare(testRockCard));
         assertEquals("evened",testPaperCard.compare(testPaperCard));
         assertEquals("evened",testScissorCard.compare(testScissorCard));
@@ -27,5 +28,13 @@ public class CardTest {
         assertEquals("lose",testPaperCard.compare(testScissorCard));
         assertEquals("lose",testScissorCard.compare(testRockCard));
         assertEquals("lose",testRockCard.compare(testPaperCard)); // test all conditions
+    }
+
+    @Test
+    void testToJson() {
+        JSONObject x = new JSONObject();
+        x.put("kind","paper");
+        String json = x.toString();
+        assertEquals(json, testPaperCard.toJson().toString());
     }
 }
