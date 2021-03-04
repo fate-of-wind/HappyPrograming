@@ -3,10 +3,17 @@ package ui;
 import model.Card;
 import model.Hand;
 import model.Player2PastShown;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class CardGame {
+    private static final String JSON_STORE = "./data/pastPlayer2Shown.json";
+    private static final String JSON_STOREForPlayer1Hand = "./data/player1Hand.json";
+    private static final String JSON_STOREForPlayer2Hand = "./data/player2Hand.json";
     private Scanner input;
     private Hand player1;
     private Hand player2;
@@ -17,6 +24,12 @@ public class CardGame {
     private Card player2Chosen;
     private String chosen;
     private Player2PastShown pastP2Shown;
+    private JsonReader jsonReader;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReaderForPlayer1Hand;
+    private JsonWriter jsonWriterForPlayer1Hand;
+    private JsonReader jsonReaderForPlayer2Hand;
+    private JsonWriter jsonWriterForPlayer2Hand;
 
     // EFFECTS: runs the card game
     public CardGame() {
@@ -56,14 +69,18 @@ public class CardGame {
     // MODIFIES: this
     // EFFECTS: processes user command
     private void processCommand(String command) {
-        if (command.equals("s")) {
+        if (command.equals("c")) {
             showCard();
             printPlayersCard();
             printHandCondition();
         } else if (command.equals("n")) {
             init();
         } else if (command.equals("p")) {
-            System.out.println(pastP2Shown.toMakeString());
+            System.out.println("player2 past shown card: " + pastP2Shown.toMakeString());
+        } else if (command.equals("s")) {
+            saveAll();
+        } else if (command.equals("l")) {
+            loadAll();
         } else {
             System.out.println("Selection not valid...");
         }
@@ -80,14 +97,23 @@ public class CardGame {
         pastP2Shown = new Player2PastShown();
 
         input = new Scanner(System.in);
+
+        jsonReader = new JsonReader(JSON_STORE);
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReaderForPlayer1Hand = new JsonReader(JSON_STOREForPlayer1Hand);
+        jsonWriterForPlayer1Hand = new JsonWriter(JSON_STOREForPlayer1Hand);
+        jsonReaderForPlayer2Hand = new JsonReader(JSON_STOREForPlayer2Hand);
+        jsonWriterForPlayer2Hand = new JsonWriter(JSON_STOREForPlayer2Hand);
     }
 
     // EFFECTS: displays menu of options to user
     private void displayMenu() {
         System.out.println("\nSelect from:");
         System.out.println("\tn -> new game(make you hand back to 15, I wish you won't lose again)");
-        System.out.println("\ts -> show card");
+        System.out.println("\tc -> show card");
         System.out.println("\tp -> show past player2 shown");
+        System.out.println("\ts -> save hand condition to file");
+        System.out.println("\tl -> load hand condition from file");
         System.out.println("\tq -> quit");
     }
 
@@ -193,6 +219,60 @@ public class CardGame {
             return "player2 lose";
         } else {
             return "";
+        }
+    }
+
+    private void saveAll() {
+        savePlayer2PastShown();
+        saveHandCondition();
+    }
+
+    private void loadAll() {
+        loadPlayer2PastShown();
+        loadHandCondition();
+    }
+
+    private void saveHandCondition() {
+        try {
+            jsonWriterForPlayer1Hand.open();
+            jsonWriterForPlayer1Hand.write(player1);
+            jsonWriterForPlayer1Hand.close();
+            jsonWriterForPlayer2Hand.open();
+            jsonWriterForPlayer2Hand.write(player2);
+            jsonWriterForPlayer2Hand.close();
+            System.out.println("Saved player hand to " + JSON_STOREForPlayer1Hand);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STOREForPlayer1Hand);
+        }
+    }
+
+    private void loadHandCondition() {
+        try {
+            player1 = jsonReaderForPlayer1Hand.readHand();
+            player2 = jsonReaderForPlayer2Hand.readHand();
+            System.out.println("Loaded player hand from " + JSON_STOREForPlayer1Hand);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STOREForPlayer1Hand);
+        }
+    }
+
+    private void savePlayer2PastShown() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(pastP2Shown);
+            jsonWriter.close();
+            System.out.println("Saved player2 past shown to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    private void loadPlayer2PastShown() {
+        try {
+            pastP2Shown = jsonReader.readPlayer2PastShown();
+            System.out.println("Loaded player2 past shown from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
 }

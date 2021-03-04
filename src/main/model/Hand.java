@@ -1,6 +1,8 @@
 package model;
 // Hand is hand card of each player. At first, each Hand contains 15 cards. - 5 rock, 5 paper, and 5 scissors
 
+import org.json.JSONObject;
+
 public class Hand {
     Card rockCard = new Card("rock");
     Card paperCard = new Card("paper");
@@ -54,6 +56,14 @@ public class Hand {
         } else {
             this.scissor.addOneCard();
         }
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("rock",rock.getNumber());
+        json.put("scissor",scissor.getNumber());
+        json.put("paper",paper.getNumber());
+        return json;
     }
 }
 

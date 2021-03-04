@@ -21,9 +21,14 @@ that's amazing.
 - As a user, I want to be able to add Cards to Hand automatically (finished)
 - As a user, I want to be able to add player2's past shown Card to Player2PastShown class and its arraylist(finished)
 - As a user, I want to be able to select a card on hand and show it (finished)
-- As a user, I want to compare my card to opponent's card (finished)
-- As a user, I want to play with an opponent who can actually show card (finished)
+- As a user, I want to be able to compare my card to opponent's card (finished)
+- As a user, I want to be able to play with an opponent who can actually show card (finished)
 - As a user, I want to be able to have ability to see number of other player's hand card (can choose open or not)
 - As a user, I want to be able to remove Cards from Hand automatically (finished)
 - As a user, I want to be able to select difficulty level of other player
-
+- As a user, I want to be able to save state of hand in turn to file
+- As a user, I want to be able to load state of hand in turn from file
+- As a user, when I select the quit option from the application menu, I want to be reminded to save state
+ of hand in turn to file and have the option to do so or not.
+- As a user, when I start the application, I want to be given the option to load state of hand in turn
+from file

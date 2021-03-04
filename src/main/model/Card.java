@@ -3,7 +3,10 @@ package model;
 // Rock is large than scissor but smaller than paper. Paper is larger than rock but smaller than scissor.
 // It's a circle.
 
-public class Card {
+import org.json.JSONObject;
+import persistence.Writable;
+
+public class Card implements Writable {
     private final String kinds;
 
     /*
@@ -64,6 +67,13 @@ public class Card {
         } else {
             return "lose";
         }
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("kind",kinds);
+        return json;
     }
 }
 

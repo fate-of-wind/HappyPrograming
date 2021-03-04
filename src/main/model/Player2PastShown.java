@@ -1,8 +1,12 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 
-public class Player2PastShown {
+public class Player2PastShown implements Writable {
     private ArrayList<Card> player2PastShow;
 
     public Player2PastShown() {
@@ -28,4 +32,22 @@ public class Player2PastShown {
         }
         return pastShown;
     }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("player2past", pastShownToJson());
+        return json;
+    }
+
+    public JSONArray pastShownToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Card c : player2PastShow) {
+            jsonArray.put(c.toJson());
+        }
+
+        return jsonArray;
+    }
+
 }
