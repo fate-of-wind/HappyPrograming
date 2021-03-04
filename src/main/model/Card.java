@@ -1,11 +1,11 @@
 package model;
+
+import persistence.Writable;
+import org.json.JSONObject;
+
 // Card is three kind of card: rock, paper, and scissor
 // Rock is large than scissor but smaller than paper. Paper is larger than rock but smaller than scissor.
 // It's a circle.
-
-import org.json.JSONObject;
-import persistence.Writable;
-
 public class Card implements Writable {
     private final String kinds;
 
