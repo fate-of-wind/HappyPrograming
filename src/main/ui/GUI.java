@@ -29,11 +29,13 @@ public class GUI extends JFrame implements ActionListener {
         panel.setBackground(Color.WHITE);
 
         JButton rock = new JButton();
-        JButton paper = new JButton("paper");
-        JButton scissor = new JButton("scissor");
+        JButton paper = new JButton();
+        JButton scissor = new JButton();
 
-        //ImageIcon rockIcon = new ImageIcon(getClass().getResource("./data/rock.png"));
-        //rock.setIcon(rockIcon);
+
+        rock.setIcon(new ImageIcon("./data/rock.png"));
+        paper.setIcon(new ImageIcon("./data/paper.png"));
+        scissor.setIcon(new ImageIcon("./data/scissor.png"));
         Dimension cardSize = new Dimension(200,300);
         rock.setPreferredSize(cardSize);
         paper.setPreferredSize(cardSize);
