@@ -6,21 +6,13 @@ import model.Player2PastShown;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.JFrame;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.Box;
 
 
 public class GUI extends JFrame implements ActionListener {
@@ -78,6 +70,32 @@ public class GUI extends JFrame implements ActionListener {
     private JButton switchMode1;
     private JFrame frame;
 
+    public GUI() {
+        init();
+        initGuiPart1();
+        initGuiPart2();
+        setLayoutInGUI();
+        setButtonActionCL(rock, paper, scissor, save, load, newGame, switchMode, switchMode1);
+        setCardFormat(rock, paper, scissor);
+        panelSetBackground();
+        setPreferredSizeOfPanel();
+        pastShownReport = new JTextArea("", 10, 40);
+        JScrollPane jsp = new JScrollPane(pastShownReport);
+        Dimension size = pastShownReport.getPreferredSize();
+        jsp.setBounds(110, 90, size.width, size.height);
+        setLabelFont();
+        firstPartAdding(jsp);
+        c1.show(panelPastShownVersion, "card1");
+        listOfAdding();
+        frame.setBounds(1900, 1000, 1700, 1100);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new GUI();
+    }
+
     // MODIFIES: this
     // EFFECTS: initializes two players and its hand
     private void init() {
@@ -100,7 +118,7 @@ public class GUI extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: initializes frame, panel and button in GUI
-    private void initGUI() {
+    private void initGuiPart1() {
         panel = new JPanel();
         panelCardButton = new JPanel();
         panelAbove = new JPanel();
@@ -117,6 +135,9 @@ public class GUI extends JFrame implements ActionListener {
         load = new JButton("load");
         newGame = new JButton("nameGame");
         switchMode = new JButton("switch");
+    }
+
+    private void initGuiPart2() {
         switchMode1 = new JButton("switch");
         panelPastShownVersion = new JPanel(new CardLayout());
         frame = new JFrame("Card Game");
@@ -135,49 +156,28 @@ public class GUI extends JFrame implements ActionListener {
         resultLabel = new JLabel("result:");
     }
 
-    public GUI() {
-        init();
-        initGUI();
-        setLayoutInGUI();
-        setButtonActionCL(rock, paper, scissor, save, load, newGame, switchMode, switchMode1);
-        setCardFormat(rock, paper, scissor);
-        panelSetBackground();
-        setPreferredSizeOfPanel();
-        pastShownReport = new JTextArea("",10,40);
-        JScrollPane jsp = new JScrollPane(pastShownReport);
-        Dimension size = pastShownReport.getPreferredSize();
-        jsp.setBounds(110,90,size.width,size.height);
-        setLabelFont();
-        firstPartAdding(jsp);
-        c1.show(panelPastShownVersion,"card1");
-        listOfAdding();
-        frame.setBounds(1900,1000,1700,1100);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
-
     //EFFECTS: set panel's size in GUI
     private void setPreferredSizeOfPanel() {
-        panelCondition.setPreferredSize(new Dimension(600,300));
-        panelPastShownVersion.setPreferredSize(new Dimension(500,300));
-        panelPastShownVersion1.setPreferredSize(new Dimension(500,300));
-        panelPastShownVersion2.setPreferredSize(new Dimension(500,300));
-        panel.setPreferredSize(new Dimension(1000,600));
-        panelTool.setPreferredSize(new Dimension(400,600));
-        panelRight.setPreferredSize(new Dimension(500,600));
-        panelCenter.setPreferredSize(new Dimension(400,600));
-        save.setPreferredSize(new Dimension(100,100));
-        load.setPreferredSize(new Dimension(100,100));
+        panelCondition.setPreferredSize(new Dimension(600, 300));
+        panelPastShownVersion.setPreferredSize(new Dimension(500, 300));
+        panelPastShownVersion1.setPreferredSize(new Dimension(500, 300));
+        panelPastShownVersion2.setPreferredSize(new Dimension(500, 300));
+        panel.setPreferredSize(new Dimension(1000, 600));
+        panelTool.setPreferredSize(new Dimension(400, 600));
+        panelRight.setPreferredSize(new Dimension(500, 600));
+        panelCenter.setPreferredSize(new Dimension(400, 600));
+        save.setPreferredSize(new Dimension(100, 100));
+        load.setPreferredSize(new Dimension(100, 100));
     }
 
     //EFFECTS: set layout of frame and panel in GUI
     private void setLayoutInGUI() {
         frame.setLayout(new BorderLayout());
-        panelPastShownVersion2.setLayout(new GridLayout(4,1,5,5));
-        panelAbove.setLayout(new GridLayout(1,2,100,5));
-        panelTool.setLayout(new GridLayout(2,2,5,5));
-        panelCondition.setLayout(new GridLayout(2,1,5,5));
-        panelRight.setLayout(new GridLayout(3,2,5,5));
+        panelPastShownVersion2.setLayout(new GridLayout(4, 1, 5, 5));
+        panelAbove.setLayout(new GridLayout(1, 2, 100, 5));
+        panelTool.setLayout(new GridLayout(2, 2, 5, 5));
+        panelCondition.setLayout(new GridLayout(2, 1, 5, 5));
+        panelRight.setLayout(new GridLayout(3, 2, 5, 5));
     }
 
     //EFFECTS: set font format of label in GUI
@@ -202,8 +202,8 @@ public class GUI extends JFrame implements ActionListener {
         panelPastShownVersion1.add(switchMode1);
         panelAbove.add(panelCondition);
         panel.add(resultLabel);
-        panelPastShownVersion.add(panelPastShownVersion1,"card1");
-        panelPastShownVersion.add(panelPastShownVersion2,"card2");
+        panelPastShownVersion.add(panelPastShownVersion1, "card1");
+        panelPastShownVersion.add(panelPastShownVersion2, "card2");
         panelAbove.add(panelPastShownVersion);
         panelCardButton.add(rock);
         panelCardButton.add(scissor);
@@ -227,12 +227,12 @@ public class GUI extends JFrame implements ActionListener {
         panelTool.add(save);
         panelTool.add(load);
         panelTool.add(newGame);
-        frame.add(panelTool,BorderLayout.WEST);
-        frame.add(panelRight,BorderLayout.EAST);
-        frame.add(panelCenter,BorderLayout.CENTER);
+        frame.add(panelTool, BorderLayout.WEST);
+        frame.add(panelRight, BorderLayout.EAST);
+        frame.add(panelCenter, BorderLayout.CENTER);
         frame.add(panel);
-        frame.add(panelCardButton,BorderLayout.SOUTH);
-        frame.add(panelAbove,BorderLayout.NORTH);
+        frame.add(panelCardButton, BorderLayout.SOUTH);
+        frame.add(panelAbove, BorderLayout.NORTH);
     }
 
     //EFFECTS:set panel's Background in GUI
@@ -251,11 +251,13 @@ public class GUI extends JFrame implements ActionListener {
         rock.setIcon(new ImageIcon("./data/rock.png"));
         paper.setIcon(new ImageIcon("./data/paper.png"));
         scissor.setIcon(new ImageIcon("./data/scissor.png"));
-        Dimension cardSize = new Dimension(200,300);
+        Dimension cardSize = new Dimension(200, 300);
         rock.setPreferredSize(cardSize);
         paper.setPreferredSize(cardSize);
         scissor.setPreferredSize(cardSize);
     }
+
+    //EFFECTS:set font size on Card number report
 
     //EFFECTS:set button action command and its actionListener
     private void setButtonActionCL(JButton rock, JButton paper, JButton
@@ -277,9 +279,6 @@ public class GUI extends JFrame implements ActionListener {
         switchMode1.setActionCommand("switch1");
         switchMode1.addActionListener(this);
     }
-
-    //EFFECTS:set font size on Card number report
-
 
     @Override
     //This is the method that is called when the the JButton btn is clicked
@@ -307,10 +306,6 @@ public class GUI extends JFrame implements ActionListener {
             c1.next(panelPastShownVersion);
         }
 
-    }
-
-    public static void main(String[] args) {
-        new GUI();
     }
 
     //EFFECTS: When click paper card, perform that
@@ -375,11 +370,6 @@ public class GUI extends JFrame implements ActionListener {
         pastShownReport.setText(pastP2Shown.toMakeString());
         countPastPlayer2ShownAndUpdate();
     }
-
-
-
-
-
 
 
     //MODIFIES: this
