@@ -53,6 +53,30 @@ public class GUI extends JFrame implements ActionListener {
     private JLabel myShown;
     private JLabel opponentShown;
     private JLabel resultLabel;
+    private JLabel opponentPastShownRockNum;
+    private JLabel opponentPastShownScissorNum;
+    private JLabel opponentPastShownPaperNum;
+    private JTextArea pastShownReport;
+    private JPanel panelPastShownVersion;
+    private CardLayout c1;
+    private JPanel panel;
+    private JPanel panelCardButton;
+    private JPanel panelAbove;
+    private JPanel panelCondition;
+    private JPanel panelTool;
+    private JPanel panelRight;
+    private JPanel panelCenter;
+    private JPanel panelPastShownVersion1;
+    private JPanel panelPastShownVersion2;
+    private JButton rock;
+    private JButton paper;
+    private JButton scissor;
+    private JButton save;
+    private JButton load;
+    private JButton newGame;
+    private JButton switchMode;
+    private JButton switchMode1;
+    private JFrame frame;
 
     // MODIFIES: this
     // EFFECTS: initializes two players and its hand
@@ -74,28 +98,168 @@ public class GUI extends JFrame implements ActionListener {
         jsonWriterForPlayer2Hand = new JsonWriter(JSON_STOREForPlayer2Hand);
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes frame, panel and button in GUI
+    private void initGUI() {
+        panel = new JPanel();
+        panelCardButton = new JPanel();
+        panelAbove = new JPanel();
+        panelCondition = new JPanel();
+        panelTool = new JPanel();
+        panelRight = new JPanel();
+        panelCenter = new JPanel();
+        panelPastShownVersion1 = new JPanel();
+        panelPastShownVersion2 = new JPanel();
+        rock = new JButton();
+        paper = new JButton();
+        scissor = new JButton();
+        save = new JButton("save");
+        load = new JButton("load");
+        newGame = new JButton("nameGame");
+        switchMode = new JButton("switch");
+        switchMode1 = new JButton("switch");
+        panelPastShownVersion = new JPanel(new CardLayout());
+        frame = new JFrame("Card Game");
+        c1 = (CardLayout) (panelPastShownVersion.getLayout());
+        myRockNum = new JLabel("my rock num:" + "5");
+        myScissorNum = new JLabel("my scissor num:" + "5");
+        myPaperNum = new JLabel("my paper num:" + "5");
+        otherRockNum = new JLabel("opponent rock num:" + "5");
+        otherScissorNum = new JLabel("opponent scissor num:" + "5");
+        otherPaperNum = new JLabel("opponent paper num:" + "5");
+        myShown = new JLabel("I show:");
+        opponentShown = new JLabel("player2 show:");
+        opponentPastShownRockNum = new JLabel("Past rock num:");
+        opponentPastShownPaperNum = new JLabel("Past scissor num:");
+        opponentPastShownScissorNum = new JLabel("Past paper num:");
+        resultLabel = new JLabel("result:");
+    }
+
     public GUI() {
         init();
-        JFrame frame = new JFrame("Card Game");
+        initGUI();
+        setLayoutInGUI();
+        setButtonActionCL(rock, paper, scissor, save, load, newGame, switchMode, switchMode1);
+        setCardFormat(rock, paper, scissor);
+        panelSetBackground();
+        setPreferredSizeOfPanel();
+        pastShownReport = new JTextArea("",10,40);
+        JScrollPane jsp = new JScrollPane(pastShownReport);
+        Dimension size = pastShownReport.getPreferredSize();
+        jsp.setBounds(110,90,size.width,size.height);
+        setLabelFont();
+        firstPartAdding(jsp);
+        c1.show(panelPastShownVersion,"card1");
+        listOfAdding();
+        frame.setBounds(1900,1000,1700,1100);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    //EFFECTS: set panel's size in GUI
+    private void setPreferredSizeOfPanel() {
+        panelCondition.setPreferredSize(new Dimension(600,300));
+        panelPastShownVersion.setPreferredSize(new Dimension(500,300));
+        panelPastShownVersion1.setPreferredSize(new Dimension(500,300));
+        panelPastShownVersion2.setPreferredSize(new Dimension(500,300));
+        panel.setPreferredSize(new Dimension(1000,600));
+        panelTool.setPreferredSize(new Dimension(400,600));
+        panelRight.setPreferredSize(new Dimension(500,600));
+        panelCenter.setPreferredSize(new Dimension(400,600));
+        save.setPreferredSize(new Dimension(100,100));
+        load.setPreferredSize(new Dimension(100,100));
+    }
+
+    //EFFECTS: set layout of frame and panel in GUI
+    private void setLayoutInGUI() {
         frame.setLayout(new BorderLayout());
-        JPanel panel = new JPanel();
-        JPanel panelCardButton = new JPanel();
-        JPanel panelAbove = new JPanel();
-        JPanel panelCondition = new JPanel();
-        JPanel panelPastShown = new JPanel();
-        JPanel panelTool = new JPanel();
-        JPanel panelRight = new JPanel();
-        JPanel panelCenter = new JPanel();
+        panelPastShownVersion2.setLayout(new GridLayout(4,1,5,5));
+        panelAbove.setLayout(new GridLayout(1,2,100,5));
+        panelTool.setLayout(new GridLayout(2,2,5,5));
+        panelCondition.setLayout(new GridLayout(2,1,5,5));
+        panelRight.setLayout(new GridLayout(3,2,5,5));
+    }
 
+    //EFFECTS: set font format of label in GUI
+    private void setLabelFont() {
+        resultLabel.setFont(new Font("", Font.BOLD, 40));
+        myRockNum.setFont(new Font("", Font.BOLD, 20));
+        myScissorNum.setFont(new Font("", Font.BOLD, 20));
+        myPaperNum.setFont(new Font("", Font.BOLD, 20));
+        otherRockNum.setFont(new Font("", Font.BOLD, 20));
+        otherScissorNum.setFont(new Font("", Font.BOLD, 20));
+        otherPaperNum.setFont(new Font("", Font.BOLD, 20));
+        myShown.setFont(new Font("", Font.BOLD, 30));
+        opponentShown.setFont(new Font("", Font.BOLD, 30));
+        pastShownReport.setFont(new Font("", Font.BOLD, 20));
+        opponentPastShownRockNum.setFont(new Font("", Font.BOLD, 20));
+        opponentPastShownPaperNum.setFont(new Font("", Font.BOLD, 20));
+        opponentPastShownScissorNum.setFont(new Font("", Font.BOLD, 20));
+    }
 
-        JButton rock = new JButton();
-        JButton paper = new JButton();
-        JButton scissor = new JButton();
-        JButton save = new JButton("save");
-        JButton load = new JButton("load");
-        JButton newGame = new JButton("nameGame");
-        JButton switchMode = new JButton("switch");
+    private void firstPartAdding(JScrollPane jsp) {
+        panelPastShownVersion1.add(jsp);
+        panelPastShownVersion1.add(switchMode1);
+        panelAbove.add(panelCondition);
+        panel.add(resultLabel);
+        panelPastShownVersion.add(panelPastShownVersion1,"card1");
+        panelPastShownVersion.add(panelPastShownVersion2,"card2");
+        panelAbove.add(panelPastShownVersion);
+        panelCardButton.add(rock);
+        panelCardButton.add(scissor);
+        panelCardButton.add(paper);
+    }
 
+    //EFFECTS:part of adding method in GUI
+    private void listOfAdding() {
+        panelPastShownVersion2.add(opponentPastShownRockNum);
+        panelPastShownVersion2.add(opponentPastShownPaperNum);
+        panelPastShownVersion2.add(opponentPastShownScissorNum);
+        panelPastShownVersion2.add(switchMode);
+        panelCondition.add(myShown);
+        panelCondition.add(opponentShown);
+        panelRight.add(myRockNum);
+        panelRight.add(otherRockNum);
+        panelRight.add(myScissorNum);
+        panelRight.add(otherScissorNum);
+        panelRight.add(myPaperNum);
+        panelRight.add(otherPaperNum);
+        panelTool.add(save);
+        panelTool.add(load);
+        panelTool.add(newGame);
+        frame.add(panelTool,BorderLayout.WEST);
+        frame.add(panelRight,BorderLayout.EAST);
+        frame.add(panelCenter,BorderLayout.CENTER);
+        frame.add(panel);
+        frame.add(panelCardButton,BorderLayout.SOUTH);
+        frame.add(panelAbove,BorderLayout.NORTH);
+    }
+
+    //EFFECTS:set panel's Background in GUI
+    private void panelSetBackground() {
+        panel.setBackground(Color.WHITE);
+        panelCondition.setBackground(Color.LIGHT_GRAY);
+        panelPastShownVersion1.setBackground(Color.cyan);
+        panelRight.setBackground(Color.LIGHT_GRAY);
+        panelTool.setBackground(Color.WHITE);
+        panelAbove.setBackground(Color.WHITE);
+        panelCardButton.setBackground(Color.WHITE);
+    }
+
+    //EFFECTS: set format of card button
+    private void setCardFormat(JButton rock, JButton paper, JButton scissor) {
+        rock.setIcon(new ImageIcon("./data/rock.png"));
+        paper.setIcon(new ImageIcon("./data/paper.png"));
+        scissor.setIcon(new ImageIcon("./data/scissor.png"));
+        Dimension cardSize = new Dimension(200,300);
+        rock.setPreferredSize(cardSize);
+        paper.setPreferredSize(cardSize);
+        scissor.setPreferredSize(cardSize);
+    }
+
+    //EFFECTS:set button action command and its actionListener
+    private void setButtonActionCL(JButton rock, JButton paper, JButton
+            scissor, JButton save, JButton load, JButton newGame, JButton switchMode, JButton switchMode1) {
         save.setActionCommand("save");
         load.setActionCommand("load");
         save.addActionListener(this);
@@ -110,105 +274,8 @@ public class GUI extends JFrame implements ActionListener {
         newGame.addActionListener(this);
         switchMode.setActionCommand("switch");
         switchMode.addActionListener(this);
-
-
-        rock.setIcon(new ImageIcon("./data/rock.png"));
-        paper.setIcon(new ImageIcon("./data/paper.png"));
-        scissor.setIcon(new ImageIcon("./data/scissor.png"));
-        Dimension cardSize = new Dimension(200,300);
-        rock.setPreferredSize(cardSize);
-        paper.setPreferredSize(cardSize);
-        scissor.setPreferredSize(cardSize);
-
-        panel.setBackground(Color.WHITE);
-        panelCondition.setBackground(Color.LIGHT_GRAY);
-        panelPastShown.setBackground(Color.cyan);
-        panelRight.setBackground(Color.LIGHT_GRAY);
-        panelTool.setBackground(Color.WHITE);
-        panelAbove.setBackground(Color.WHITE);
-        panelCardButton.setBackground(Color.WHITE);
-
-        panelCondition.setPreferredSize(new Dimension(600,300));
-        panelPastShown.setPreferredSize(new Dimension(500,300));
-        panel.setPreferredSize(new Dimension(1000,600));
-        panelTool.setPreferredSize(new Dimension(400,600));
-        panelRight.setPreferredSize(new Dimension(500,600));
-        panelCenter.setPreferredSize(new Dimension(400,600));
-        save.setPreferredSize(new Dimension(100,100));
-        load.setPreferredSize(new Dimension(100,100));
-
-        JTextArea pastShownReport = new JTextArea("",10,40);
-        JScrollPane jsp = new JScrollPane(pastShownReport);
-        Dimension size = pastShownReport.getPreferredSize();
-        jsp.setBounds(110,90,size.width,size.height);
-
-
-        myRockNum = new JLabel("my rock num:" + "5");
-        myScissorNum = new JLabel("my scissor num:" + "5");
-        myPaperNum = new JLabel("my paper num:" + "5");
-        otherRockNum = new JLabel("opponent rock num:" + "5");
-        otherScissorNum = new JLabel("opponent scissor num:" + "5");
-        otherPaperNum = new JLabel("opponent paper num:" + "5");
-        myShown = new JLabel("I show:");
-        opponentShown = new JLabel("player2 show:");
-
-
-        resultLabel = new JLabel("result:");
-        resultLabel.setFont(new Font("", Font.BOLD, 40));
-        panel.add(resultLabel);
-
-        myRockNum.setFont(new Font("", Font.BOLD, 20));
-        myScissorNum.setFont(new Font("", Font.BOLD, 20));
-        myPaperNum.setFont(new Font("", Font.BOLD, 20));
-        otherRockNum.setFont(new Font("", Font.BOLD, 20));
-        otherScissorNum.setFont(new Font("", Font.BOLD, 20));
-        otherPaperNum.setFont(new Font("", Font.BOLD, 20));
-        myShown.setFont(new Font("", Font.BOLD, 30));
-        opponentShown.setFont(new Font("", Font.BOLD, 30));
-        pastShownReport.setFont(new Font("", Font.BOLD, 20));
-
-
-        panelPastShown.add(jsp);
-        panelPastShown.add(switchMode);
-
-        panelAbove.add(panelCondition);
-
-        panelAbove.add(panelPastShown);
-
-        panelCardButton.add(rock);
-        panelCardButton.add(scissor);
-        panelCardButton.add(paper);
-
-        panelCondition.add(myShown);
-        panelCondition.add(opponentShown);
-
-
-        panelAbove.setLayout(new GridLayout(1,2,100,5));
-        panelTool.setLayout(new GridLayout(2,2,5,5));
-        panelCondition.setLayout(new GridLayout(2,1,5,5));
-        panelRight.setLayout(new GridLayout(3,2,5,5));
-        panelRight.add(myRockNum);
-        panelRight.add(otherRockNum);
-        panelRight.add(myScissorNum);
-        panelRight.add(otherScissorNum);
-        panelRight.add(myPaperNum);
-        panelRight.add(otherPaperNum);
-
-
-        panelTool.add(save);
-        panelTool.add(load);
-        panelTool.add(newGame);
-
-        frame.add(panelTool,BorderLayout.WEST);
-        frame.add(panelRight,BorderLayout.EAST);
-        frame.add(panelCenter,BorderLayout.CENTER);
-        frame.add(panel);
-
-        frame.add(panelCardButton,BorderLayout.SOUTH);
-        frame.add(panelAbove,BorderLayout.NORTH);
-        frame.setBounds(1900,1000,1700,1100);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        switchMode1.setActionCommand("switch1");
+        switchMode1.addActionListener(this);
     }
 
     //EFFECTS:set font size on Card number report
@@ -233,8 +300,11 @@ public class GUI extends JFrame implements ActionListener {
             updateConditionAfterLoad();
         } else if (e.getActionCommand().equals("newGame")) {
             init();
+            updateConditionAfterLoad();
+        } else if (e.getActionCommand().equals("switch")) {
+            c1.next(panelPastShownVersion);
         } else {
-            init();
+            c1.next(panelPastShownVersion);
         }
 
     }
@@ -287,6 +357,8 @@ public class GUI extends JFrame implements ActionListener {
         otherScissorNum.setText("opponent scissor num:" + player2.getScissorNum());
         otherPaperNum.setText("opponent paper num:" + player2.getPaperNum());
         resultLabel.setText("result:" + result);
+        pastShownReport.setText(pastP2Shown.toMakeString());
+        countPastPlayer2ShownAndUpdate();
     }
 
     //EFFECTS: change all label after load data
@@ -300,6 +372,8 @@ public class GUI extends JFrame implements ActionListener {
         otherScissorNum.setText("opponent scissor num:" + player2.getScissorNum());
         otherPaperNum.setText("opponent paper num:" + player2.getPaperNum());
         resultLabel.setText("result:");
+        pastShownReport.setText(pastP2Shown.toMakeString());
+        countPastPlayer2ShownAndUpdate();
     }
 
 
@@ -325,6 +399,23 @@ public class GUI extends JFrame implements ActionListener {
     }
 
 
+    private void countPastPlayer2ShownAndUpdate() {
+        int countRockNum = 0;
+        int countPaperNum = 0;
+        int countScissorNum = 0;
+        for (Card c : pastP2Shown.getArrayList()) {
+            if (c.getKinds().equals("rock")) {
+                countRockNum++;
+            } else if (c.getKinds().equals("paper")) {
+                countPaperNum++;
+            } else {
+                countScissorNum++;
+            }
+        }
+        opponentPastShownRockNum.setText("Past rock num: " + countRockNum);
+        opponentPastShownScissorNum.setText("Past scissor num: " + countScissorNum);
+        opponentPastShownPaperNum.setText("Past paper num: " + countPaperNum);
+    }
 
     //EFFECT: player2 random show a card
     private Card randomShow() {
