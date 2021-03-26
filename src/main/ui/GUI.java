@@ -1,17 +1,20 @@
 package ui;
 
+import com.sun.media.sound.WaveFileReader;
 import model.Card;
 import model.Hand;
 import model.Player2PastShown;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.Scanner;
 
 
@@ -29,6 +32,7 @@ public class GUI extends JFrame implements ActionListener {
     private Card player2Chosen;
     private String chosen;
     private String result;
+    private int countOpenOrClose;
     private Player2PastShown pastP2Shown;
     private JsonReader jsonReader;
     private JsonWriter jsonWriter;
@@ -68,18 +72,24 @@ public class GUI extends JFrame implements ActionListener {
     private JButton newGame;
     private JButton switchMode;
     private JButton switchMode1;
+    private JButton openOrCloseRecordingP2;
     private JFrame frame;
+    private Icon winImgIcon;
+    private Icon loseImgIcon;
+    private Icon evenImgIcon;
+    private JLabel imageLbl;
 
+
+    //EFFECTS: make a graphic version program
     public GUI() {
         init();
         initGuiPart1();
         initGuiPart2();
         setLayoutInGUI();
-        setButtonActionCL(rock, paper, scissor, save, load, newGame, switchMode, switchMode1);
+        setButtonActionCL(rock, paper, scissor, save, load, newGame, switchMode, switchMode1, openOrCloseRecordingP2);
         setCardFormat(rock, paper, scissor);
         panelSetBackground();
         setPreferredSizeOfPanel();
-        pastShownReport = new JTextArea("", 10, 40);
         JScrollPane jsp = new JScrollPane(pastShownReport);
         Dimension size = pastShownReport.getPreferredSize();
         jsp.setBounds(110, 90, size.width, size.height);
@@ -87,6 +97,7 @@ public class GUI extends JFrame implements ActionListener {
         firstPartAdding(jsp);
         c1.show(panelPastShownVersion, "card1");
         listOfAdding();
+        panelPastShownVersion.setVisible(true);
         frame.setBounds(1900, 1000, 1700, 1100);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -94,6 +105,37 @@ public class GUI extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         new GUI();
+    }
+
+
+
+
+    @Override
+    //This is the method that is called when the the JButton btn is clicked
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("rock")) {
+            rockAction();
+            displayGif();
+        } else if (e.getActionCommand().equals("scissor")) {
+            scissorActionPerform();
+            displayGif();
+        } else if (e.getActionCommand().equals("paper")) {
+            paperActionPerform();
+        } else if (e.getActionCommand().equals("save")) {
+            saveAll();
+        } else if (e.getActionCommand().equals("load")) {
+            loadAll();
+            updateConditionAfterLoad();
+        } else if (e.getActionCommand().equals("newGame")) {
+            init();
+            updateConditionAfterLoad();
+        } else if (e.getActionCommand().equals("switch")) {
+            c1.next(panelPastShownVersion);
+        } else if (e.getActionCommand().equals("open")) {
+            checkShowOrNotShow();
+        } else {
+            c1.next(panelPastShownVersion);
+        }
     }
 
     // MODIFIES: this
@@ -107,7 +149,7 @@ public class GUI extends JFrame implements ActionListener {
         pastP2Shown = new Player2PastShown();
         result = "";
         input = new Scanner(System.in);
-
+        countOpenOrClose = 0;
         jsonReader = new JsonReader(JSON_STORE);
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReaderForPlayer1Hand = new JsonReader(JSON_STOREForPlayer1Hand);
@@ -135,8 +177,16 @@ public class GUI extends JFrame implements ActionListener {
         load = new JButton("load");
         newGame = new JButton("nameGame");
         switchMode = new JButton("switch");
+        openOrCloseRecordingP2 = new JButton("open or close P2 recording");
+        pastShownReport = new JTextArea("", 10, 40);
+        winImgIcon = new ImageIcon("./data/clap.gif");
+        loseImgIcon = new ImageIcon("./data/lose.gif");
+        evenImgIcon = new ImageIcon("./data/evened.gif");
+        imageLbl = new JLabel();
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes frame, panel and button in GUI
     private void initGuiPart2() {
         switchMode1 = new JButton("switch");
         panelPastShownVersion = new JPanel(new CardLayout());
@@ -154,6 +204,17 @@ public class GUI extends JFrame implements ActionListener {
         opponentPastShownPaperNum = new JLabel("Past scissor num:");
         opponentPastShownScissorNum = new JLabel("Past paper num:");
         resultLabel = new JLabel("result:");
+    }
+
+    //EFFECTS: display different gif when win or lose a turn
+    private void displayGif() {
+        if (result.equals("win")) {
+            imageLbl.setIcon(winImgIcon);
+        } else if (result.equals("lose")) {
+            imageLbl.setIcon(loseImgIcon);
+        } else {
+            imageLbl.setIcon(evenImgIcon);
+        }
     }
 
     //EFFECTS: set panel's size in GUI
@@ -202,12 +263,14 @@ public class GUI extends JFrame implements ActionListener {
         panelPastShownVersion1.add(switchMode1);
         panelAbove.add(panelCondition);
         panel.add(resultLabel);
+        panel.add(imageLbl);
         panelPastShownVersion.add(panelPastShownVersion1, "card1");
         panelPastShownVersion.add(panelPastShownVersion2, "card2");
         panelAbove.add(panelPastShownVersion);
         panelCardButton.add(rock);
         panelCardButton.add(scissor);
         panelCardButton.add(paper);
+        panelCardButton.add(openOrCloseRecordingP2);
     }
 
     //EFFECTS:part of adding method in GUI
@@ -261,7 +324,8 @@ public class GUI extends JFrame implements ActionListener {
 
     //EFFECTS:set button action command and its actionListener
     private void setButtonActionCL(JButton rock, JButton paper, JButton
-            scissor, JButton save, JButton load, JButton newGame, JButton switchMode, JButton switchMode1) {
+            scissor, JButton save, JButton load, JButton newGame, JButton switchMode, JButton switchMode1,
+                                   JButton openOrCloseRecordingP2) {
         save.setActionCommand("save");
         load.setActionCommand("load");
         save.addActionListener(this);
@@ -278,34 +342,24 @@ public class GUI extends JFrame implements ActionListener {
         switchMode.addActionListener(this);
         switchMode1.setActionCommand("switch1");
         switchMode1.addActionListener(this);
+        openOrCloseRecordingP2.setActionCommand("open");
+        openOrCloseRecordingP2.addActionListener(this);
     }
 
-    @Override
-    //This is the method that is called when the the JButton btn is clicked
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("rock")) {
-            rockActionPerform();
-            updateCondition();
-        } else if (e.getActionCommand().equals("scissor")) {
-            scissorActionPerform();
-            updateCondition();
-        } else if (e.getActionCommand().equals("paper")) {
-            paperActionPerform();
-            updateCondition();
-        } else if (e.getActionCommand().equals("save")) {
-            saveAll();
-        } else if (e.getActionCommand().equals("load")) {
-            loadAll();
-            updateConditionAfterLoad();
-        } else if (e.getActionCommand().equals("newGame")) {
-            init();
-            updateConditionAfterLoad();
-        } else if (e.getActionCommand().equals("switch")) {
-            c1.next(panelPastShownVersion);
+    //EFFECTS:check whether open or close the panel of player2 past shown
+    private void checkShowOrNotShow() {
+        if (countOpenOrClose % 2 == 0) {
+            panelPastShownVersion.setVisible(false);
         } else {
-            c1.next(panelPastShownVersion);
+            panelPastShownVersion.setVisible(true);
         }
+        countOpenOrClose++;
+    }
 
+    //EFFECTS: rock action with update
+    private void rockAction() {
+        rockActionPerform();
+        updateCondition();
     }
 
     //EFFECTS: When click paper card, perform that
@@ -317,6 +371,8 @@ public class GUI extends JFrame implements ActionListener {
             result = paperCard.compare(player2Chosen);
             evaluateResult(result);
         }
+        updateCondition();
+        displayGif();
     }
 
     //EFFECTS: When click scissor card, perform that
@@ -328,6 +384,7 @@ public class GUI extends JFrame implements ActionListener {
             result = scissorCard.compare(player2Chosen);
             evaluateResult(result);
         }
+        updateCondition();
     }
 
     //EFFECTS: When click rock card, perform that
