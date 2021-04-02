@@ -9,25 +9,61 @@ public class CardTest {
     private Card testRockCard;
     private Card testPaperCard;
     private Card testScissorCard;
+    private Card testExceptionCard;
 
     @BeforeEach
     void runBefore() {
         testRockCard = new Card("rock");
         testPaperCard = new Card("paper");
         testScissorCard = new Card("scissor");
+        testExceptionCard = new Card("exception");
     }
 
     @Test
     void testCompare() {
-        assertEquals("evened",testRockCard.compare(testRockCard));
-        assertEquals("evened",testPaperCard.compare(testPaperCard));
-        assertEquals("evened",testScissorCard.compare(testScissorCard));
-        assertEquals("win",testPaperCard.compare(testRockCard));
-        assertEquals("win",testRockCard.compare(testScissorCard));
-        assertEquals("win",testScissorCard.compare(testPaperCard));
-        assertEquals("lose",testPaperCard.compare(testScissorCard));
-        assertEquals("lose",testScissorCard.compare(testRockCard));
-        assertEquals("lose",testRockCard.compare(testPaperCard)); // test all conditions
+        try {
+            assertEquals("evened",testRockCard.compare(testRockCard));
+            assertEquals("evened",testPaperCard.compare(testPaperCard));
+            assertEquals("evened",testScissorCard.compare(testScissorCard));
+            assertEquals("win",testPaperCard.compare(testRockCard));
+            assertEquals("win",testRockCard.compare(testScissorCard));
+            assertEquals("win",testScissorCard.compare(testPaperCard));
+            assertEquals("lose",testPaperCard.compare(testScissorCard));
+            assertEquals("lose",testScissorCard.compare(testRockCard));
+            assertEquals("lose",testRockCard.compare(testPaperCard)); // test all conditions
+        } catch (InvalidCard e) {
+            fail("should not be throw");
+        }
+    }
+
+    @Test
+    void testCompareExceptionRock() {
+        try {
+            testRockCard.compare(testExceptionCard);
+            fail("should throw a exception ");
+        } catch (InvalidCard e) {
+            //expected
+        }
+    }
+
+    @Test
+    void testCompareExceptionPaper() {
+        try {
+            testPaperCard.compare(testExceptionCard);
+            fail("should throw a exception ");
+        } catch (InvalidCard e) {
+            //expected
+        }
+    }
+
+    @Test
+    void testCompareExceptionScissor() {
+        try {
+            testScissorCard.compare(testExceptionCard);
+            fail("should throw a exception ");
+        } catch (InvalidCard e) {
+            //expected
+        }
     }
 
     @Test

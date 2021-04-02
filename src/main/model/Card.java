@@ -23,8 +23,10 @@ public class Card implements Writable {
 
     // REQUIRES: only in ROCK, PAPER, SCISSOR
     // EFFECTS: Compare card to show which one is winner
-    public String compare(Card card) {
-        if (this.getKinds().equals("rock")) {
+    public String compare(Card card) throws InvalidCard {
+        if (!card.getKinds().equals("rock") && !card.getKinds().equals("paper") && !card.getKinds().equals("scissor")) {
+            throw new InvalidCard();
+        } else if (this.getKinds().equals("rock")) {
             return rockCompare(card);
         } else if (this.getKinds().equals("scissor")) {
             return scissorCompare(card);
@@ -33,7 +35,6 @@ public class Card implements Writable {
         }
     }
 
-    // REQUIRES: only in ROCK, PAPER, SCISSOR
     // EFFECTS: Compare rock card to show which one is winner
     public String rockCompare(Card card) {
         if (card.getKinds().equals("rock")) {
@@ -45,7 +46,6 @@ public class Card implements Writable {
         }
     }
 
-    // REQUIRES: only in ROCK, PAPER, SCISSOR
     // EFFECTS: Compare scissor card to show which one is winner
     public String scissorCompare(Card card) {
         if (card.getKinds().equals("rock")) {
@@ -57,7 +57,6 @@ public class Card implements Writable {
         }
     }
 
-    // REQUIRES: only in ROCK, PAPER, SCISSOR
     // EFFECTS: Compare paper card to show which one is winner
     public String paperCompare(Card card) {
         if (card.getKinds().equals("rock")) {

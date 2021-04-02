@@ -1,20 +1,17 @@
 package ui;
 
-import com.sun.media.sound.WaveFileReader;
 import model.Card;
 import model.Hand;
 import model.Player2PastShown;
+import model.InvalidCard;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.net.URL;
 import java.util.Scanner;
 
 
@@ -364,37 +361,49 @@ public class GUI extends JFrame implements ActionListener {
 
     //EFFECTS: When click paper card, perform that
     private void paperActionPerform() {
-        this.player1Chosen = paperCard;
-        this.player2Chosen = randomShow();
-        pastP2Shown.addCardToPastShown(player2Chosen);
-        if (player1.getPaperNum() > 0) {
-            result = paperCard.compare(player2Chosen);
-            evaluateResult(result);
+        try {
+            if (player1.getPaperNum() > 0) {
+                this.player1Chosen = paperCard;
+                this.player2Chosen = randomShow();
+                pastP2Shown.addCardToPastShown(player2Chosen);
+                result = paperCard.compare(player2Chosen);
+                evaluateResult(result);
+                updateCondition();
+                displayGif();
+            }
+        } catch (InvalidCard e) {
+            System.out.println("invalid card");
         }
-        updateCondition();
-        displayGif();
     }
 
     //EFFECTS: When click scissor card, perform that
     private void scissorActionPerform() {
-        this.player1Chosen = scissorCard;
-        this.player2Chosen = randomShow();
-        pastP2Shown.addCardToPastShown(player2Chosen);
-        if (player1.getScissorNum() > 0) {
-            result = scissorCard.compare(player2Chosen);
-            evaluateResult(result);
+        try {
+            if (player1.getScissorNum() > 0) {
+                this.player1Chosen = scissorCard;
+                this.player2Chosen = randomShow();
+                pastP2Shown.addCardToPastShown(player2Chosen);
+                result = scissorCard.compare(player2Chosen);
+                evaluateResult(result);
+                updateCondition();
+            }
+        } catch (InvalidCard e) {
+            System.out.println("invalid card");
         }
-        updateCondition();
     }
 
     //EFFECTS: When click rock card, perform that
     private void rockActionPerform() {
-        this.player1Chosen = rockCard;
-        this.player2Chosen = randomShow();
-        pastP2Shown.addCardToPastShown(player2Chosen);
-        if (player1.getRockNum() > 0) {
-            result = rockCard.compare(player2Chosen);
-            evaluateResult(result);
+        try {
+            if (player1.getRockNum() > 0) {
+                this.player1Chosen = rockCard;
+                this.player2Chosen = randomShow();
+                pastP2Shown.addCardToPastShown(player2Chosen);
+                result = rockCard.compare(player2Chosen);
+                evaluateResult(result);
+            }
+        } catch (InvalidCard e) {
+            System.out.println("invalid card");
         }
     }
 

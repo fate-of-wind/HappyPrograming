@@ -32,3 +32,23 @@ that's amazing.
  of hand in turn to file and have the option to do so or not.
 - As a user, when I start the application, I want to be given the option to load state of hand in turn
 from file
+
+##Phase 4: Task 2 
+I test and design a robust class in model package.
+Card Class.
+There is a method named compare which require Card Type parameter before that.
+
+Now it throws an InvalidCard Exception when it receives Card parameter other than Rock, Paper, and Scissor.
+
+I test both two condition, one for the case where the exception is expected
+ and another where the exception is not expected.
+ 
+##Phase 4: Task 3
+- I use many repeated association between class, I can refactor it by simplify
+those associations. Use two or one class to cover those data instead of three classes: Card,
+DetailCardNum, Hand.
+
+- I use improve the store data structure.
+
+- Coupling problem seems contain in my project, I need to reduce those coupling.
+Maybe use Observer Pattern to implement that.
