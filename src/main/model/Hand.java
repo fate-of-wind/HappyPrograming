@@ -60,6 +60,7 @@ public class Hand implements Writable {
     }
 
     @Override
+    // EFFECTS:store Card number on Hand into Json form
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("rock",rock.getNumber());

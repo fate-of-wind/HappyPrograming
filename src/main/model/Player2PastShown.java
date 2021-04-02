@@ -6,6 +6,7 @@ import persistence.Writable;
 
 import java.util.ArrayList;
 
+// a class that represent player2 past shown card in this game
 public class Player2PastShown implements Writable {
     private ArrayList<Card> player2PastShow;
 
@@ -34,6 +35,7 @@ public class Player2PastShown implements Writable {
     }
 
     @Override
+    // EFFECTS:store player2past into Json form
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("player2past", pastShownToJson());

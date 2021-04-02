@@ -69,6 +69,7 @@ public class Card implements Writable {
     }
 
     @Override
+    // EFFECTS:store Card into Json form
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("kind",kinds);

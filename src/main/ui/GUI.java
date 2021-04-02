@@ -1,4 +1,5 @@
 package ui;
+//GUI is main class of my game, used to show graphic version to player
 
 import model.Card;
 import model.Hand;
@@ -255,6 +256,7 @@ public class GUI extends JFrame implements ActionListener {
         opponentPastShownScissorNum.setFont(new Font("", Font.BOLD, 20));
     }
 
+    //EFFECTS:part of adding method in GUI
     private void firstPartAdding(JScrollPane jsp) {
         panelPastShownVersion1.add(jsp);
         panelPastShownVersion1.add(switchMode1);
@@ -317,7 +319,6 @@ public class GUI extends JFrame implements ActionListener {
         scissor.setPreferredSize(cardSize);
     }
 
-    //EFFECTS:set font size on Card number report
 
     //EFFECTS:set button action command and its actionListener
     private void setButtonActionCL(JButton rock, JButton paper, JButton
@@ -454,7 +455,8 @@ public class GUI extends JFrame implements ActionListener {
         }
     }
 
-
+    //EFFECTS: used to count how many card of specific kind player2 shown past and update information during
+    // each shown
     private void countPastPlayer2ShownAndUpdate() {
         int countRockNum = 0;
         int countPaperNum = 0;
