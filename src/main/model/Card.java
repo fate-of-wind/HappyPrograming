@@ -21,8 +21,9 @@ public class Card implements Writable {
         return kinds;
     }
 
-    // REQUIRES: only in ROCK, PAPER, SCISSOR
+
     // EFFECTS: Compare card to show which one is winner
+    // throw a exception when card is out of Rock,Paper,Scissor
     public String compare(Card card) throws InvalidCard {
         if (!card.getKinds().equals("rock") && !card.getKinds().equals("paper") && !card.getKinds().equals("scissor")) {
             throw new InvalidCard();
