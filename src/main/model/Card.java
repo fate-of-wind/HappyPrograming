@@ -10,7 +10,6 @@ public class Card implements Writable {
     private final String kinds;
 
     /*
-    REQUIRES: kind can only be "rock", "paper", or "scissor"
     EFFECTS: kind of card is set to kind, only three kinds of card
     */
     public Card(String kind) {
